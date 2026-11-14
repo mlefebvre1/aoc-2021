@@ -1,0 +1,6 @@
+name = "FetchPuzzle"
+uuid = "97280cf3-f818-41ba-a4c8-ff6d0087c989"
+version = "0.1.0"
+
+[deps]
+HTTP = "cd3eb016-35fb-5094-929b-558a96fad6f3"
