@@ -39,9 +39,9 @@ function rating(M, rating)
     nb_rows, nb_bits = M.size
     for i in 1:nb_bits
         nb_ones = sum(M[:, i], dims=1)[1]
-        if nb_ones*2 >= nb_rows # greater or equal keep 1
+        if nb_ones*2 >= nb_rows # greater or equal
             M = M[M[:, i] .== greater, :]
-        else # less, keep 0
+        else # less
             M = M[M[:, i] .== lesser, :]
         end
         nb_rows, _ = M.size
