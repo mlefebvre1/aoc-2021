@@ -6,7 +6,7 @@ function solve_part1(puzzle)
 
     nb_increasing = 0
     prev = typemax(UInt64)
-    for i in 1:length(lines)
+    for i in eachindex(lines)
         y = parse(UInt64, lines[i])
         if y > prev
             nb_increasing += 1
