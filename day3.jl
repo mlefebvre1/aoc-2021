@@ -1,11 +1,54 @@
 using FetchPuzzle
 
 function solve_part1(puzzle)
-    # TODO: implement Day 3, Part 1.
+    lines = filter(line -> line != "", split(puzzle, '\n'))
+    bits = [parse.(Int, collect(line)) for line in lines]
+    grid = permutedims(hcat(bits...))
+    nb_rows, _ = grid.size
+    nb_ones = sum(grid, dims=1)
+
+    gamma = "0b"
+    epsilon = "0b"
+    for nb_one in nb_ones
+        if nb_one * 2 > nb_rows
+            gamma *= "0"
+            epsilon *= "1"
+        else
+            gamma *= "1"
+            epsilon *= "0"
+        end
+    end
+    gammav = parse(Int, gamma)
+    epsilonv = parse(Int, epsilon)
+    return gammav * epsilonv
 end
 
 function solve_part2(puzzle)
-    # TODO: implement Day 3, Part 2.
+    lines = filter(line -> line != "", split(puzzle, '\n'))
+    bits = [parse.(Int, collect(line)) for line in lines]
+    M = permutedims(hcat(bits...))
+    oxygen = parse(Int, "0b" * join(rating(M, "oxygen")))
+    scrubber = parse(Int, "0b" * join(rating(M, "scrubber")))
+    return oxygen * scrubber
+end
+
+function rating(M, rating)
+    greater = rating == "oxygen" ? 1 : 0
+    lesser = rating == "oxygen" ? 0 : 1
+
+    nb_rows, nb_bits = M.size
+    for i in 1:nb_bits
+        nb_ones = sum(M[:, i], dims=1)[1]
+        if nb_ones*2 >= nb_rows # greater or equal keep 1
+            M = M[M[:, i] .== greater, :]
+        else # less, keep 0
+            M = M[M[:, i] .== lesser, :]
+        end
+        nb_rows, _ = M.size
+        if nb_rows == 1
+            return M
+        end
+    end
 end
 
 puzzle = fetchPuzzle(3)
